@@ -1,7 +1,6 @@
 const Product = require("../models/product.model.js");
 
 exports.create = (req, res) => {
-  // console.log(req.body);
   if (!req.body) {
     res.status(400).send({
       message: "Form cannot be empty",
@@ -10,12 +9,12 @@ exports.create = (req, res) => {
 
   const product = new Product({
     name: req.body.name,
-    amount: req.body.amount,
-    available_stock: req.body.available_stock,
+    price: req.body.price,
+    quantity_in_stock: req.body.quantity_in_stock,
+    productImage: req.body.product_image,
+    description: req.body.description,
   });
-  // console.log(product);
-
-  Product.create(product, (err, data) => {
+   Product.create(product, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occured while adding your products",

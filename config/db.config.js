@@ -1,7 +1,6 @@
 module.exports ={
-    HOST: "localhost",
-    user: "root",
-    PASSWORD: "tiidelab@2020",
-    db: "Backend"
-
-}
+  HOST: process.env.HOST,
+  USER: process.env.USER,
+  PASSWORD: process.env.PASSWORD,
+  db: process.env.db
+};

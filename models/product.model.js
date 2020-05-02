@@ -3,8 +3,10 @@ const sql = require("./db.js");
 // Constructor
 const Product = function (product) {
   this.name = product.name;
-  this.amount = product.amount;
-  this.available_stock = product.available_stock;
+  this.price = product.price;
+  this.quantity_in_stock = product.quantity_in_stock;
+  this.productImageUrl = product.productImageUrl;
+  this.description = product.description;
 };
 
 // Insert
@@ -50,8 +52,15 @@ Product.getAll = (result) => {
 
 Product.updateById = (productId, product, result) => {
   sql.query(
-    `UPDATE products SET name=?, amount=?, available_stock=? WHERE _id =? `,
-    [product.name, product.amount, product.available_stock, productId],
+    `UPDATE products SET name=?, price=?, quantity_in__stock=?, description=?, WHERE _id =? `,
+    [
+      product.name,
+      product.price,
+      product.quantity_in__stock,
+      product.productImageUrl,
+      product.description,
+      productId,
+    ],
     (err, res) => {
       if (err) {
         console.log("error:  ", err);
@@ -87,21 +96,16 @@ Product.remove = (productId, result) => {
 };
 
 Product.removeAll = (result) => {
-    sql.query(`DELETE FROM products`, (err, res) => {
-      if (err) {
-        console.log("error:  ", err);
-        result(err, null);
-        return;
-      }
-  
-      if (res.affectedRows == 0) {
-        result({ kind: "not_found" }, null);
-        return;
-      }
-      console.log(" All Products Deleted: ");
-      result(null, res);
-    });
-  };
+  sql.query(`TRUNCATE TABLE products`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log(`deleted ${res.affectedRows} products`);
+    result(null, res);
+  });
+};
 
 
 module.exports = Product;
